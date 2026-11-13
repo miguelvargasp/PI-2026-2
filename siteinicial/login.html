@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - MJRewind</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="topbar">
+    <a href="index.html" class="logo">MJRewind</a>
+    <nav class="menu">
+      <a href="cadastro.html">Cadastro</a>
+      <a href="login.html">Login</a>
+      <a href="#discografia">Discografia</a>
+      <a href="#estatisticas">Estatísticas</a>
+    </nav>
+  </header>
+
+  <main class="conteudo">
+    <div class="form-card">
+      <h1>Acesse sua conta</h1>
+
+      <label for="inp_email">Email</label>
+      <input type="text" id="inp_email" placeholder="Insira seu email"> <br>
+
+      <label for="inp_senha">Senha</label>
+      <input type="password" id="inp_senha" placeholder="Insira sua senha"> <br>
+
+      <p id="mensagem_erro" class="mensagem"></p>
+
+      <button onclick="entrar()" class="botao">Entrar</button>
+
+      <p class="troca">Ainda não possui conta? <a href="cadastro.html">Cadastre-se</a></p>
+    </div>
+  </main>
+
+  <script>
+    function mostrarMensagem(texto, sucesso) {
+      const msg = document.getElementById("mensagem_erro");
+      msg.innerHTML = texto;
+      msg.className = sucesso ? "mensagem sucesso" : "mensagem";
+    }
+
+    function entrar() {
+      let emailVar = inp_email.value;
+      let senhaVar = inp_senha.value;
+
+      // Validação dos campos
+      if (emailVar == "" || senhaVar == "") {
+        mostrarMensagem("Preencha todos os campos!", false);
+        return false;
+      }
+      else if (!emailVar.includes("@")) {
+        mostrarMensagem('E-mail inválido! Deve conter "@".', false);
+        return false;
+      }
+      else {
+        console.log("FORM LOGIN: ", emailVar);
+
+        // Conexão futura com a API / banco de dados
+        fetch("/usuarios/autenticar", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            emailServer: emailVar,
+            senhaServer: senhaVar
+          })
+        }).then(function (resposta) {
+          console.log("ESTOU NO THEN DO entrar()!");
+
+          if (resposta.ok) {
+            resposta.json().then(json => {
+              console.log(json);
+              sessionStorage.EMAIL_USUARIO = json.email;
+              sessionStorage.NOME_USUARIO = json.nome;
+              sessionStorage.ID_USUARIO = json.id;
+
+              window.location.href = "index.html";
+            });
+          } else {
+            console.log("Houve um erro ao tentar realizar o login!");
+            mostrarMensagem("Email ou senha inválidos.", false);
+          }
+        }).catch(function (erro) {
+          console.log(erro);
+          mostrarMensagem("Não foi possível conectar ao servidor.", false);
+        });
+
+        return false;
+      }
+    }
+  </script>
+
+</body>
+</html>
