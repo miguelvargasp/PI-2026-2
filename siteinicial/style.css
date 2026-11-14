@@ -13,7 +13,6 @@ body {
   flex-direction: column;
 }
 
-/* ===== Faixa superior ===== */
 .topbar {
   display: flex;
   justify-content: space-between;
@@ -45,7 +44,6 @@ body {
   color: #ffffff;
 }
 
-/* ===== Conteúdo central ===== */
 .conteudo {
   flex: 1;
   display: flex;
@@ -54,7 +52,6 @@ body {
   padding: 40px 20px;
 }
 
-/* Div vazia que envolve as duas divs */
 .container {
   display: flex;
   gap: 24px;
@@ -90,7 +87,6 @@ body {
   justify-content: center;
 }
 
-/* ===== Responsivo ===== */
 @media (max-width: 768px) {
   .topbar {
     flex-direction: column;
