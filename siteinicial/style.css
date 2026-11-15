@@ -13,6 +13,7 @@ body {
   flex-direction: column;
 }
 
+/* ===== Faixa superior ===== */
 .topbar {
   display: flex;
   justify-content: space-between;
@@ -44,6 +45,7 @@ body {
   color: #ffffff;
 }
 
+/* ===== Conteúdo central ===== */
 .conteudo {
   flex: 1;
   display: flex;
@@ -52,6 +54,7 @@ body {
   padding: 40px 20px;
 }
 
+/* Div vazia que envolve as duas divs */
 .container {
   display: flex;
   gap: 24px;
@@ -78,7 +81,20 @@ body {
 .box-imagem img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  padding: 20px;
+}
+
+.box-texto h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.box-texto p {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 12px;
 }
 
 .box-texto {
@@ -87,6 +103,99 @@ body {
   justify-content: center;
 }
 
+/* ===== Logo como link ===== */
+a.logo {
+  color: #d4af37;
+  text-decoration: none;
+}
+
+/* ===== Formulários (login e cadastro) ===== */
+.form-card {
+  width: 100%;
+  max-width: 420px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 48px 40px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-card h1 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.form-card label {
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+
+.form-card input {
+  font-family: 'Poppins', sans-serif;
+  padding: 10px 12px;
+  margin-bottom: 16px;
+  width: 100%;
+  border: 2px solid #8c8c8c;
+  border-radius: 8px;
+  background-color: #f2f2f2;
+  color: #1a1a1a;
+  font-size: 0.95rem;
+}
+
+.form-card input::placeholder {
+  color: #6b6b6b;
+}
+
+.form-card input:focus {
+  outline: none;
+  border-color: #1a1a1a;
+  background-color: #ffffff;
+}
+
+.botao {
+  font-family: 'Poppins', sans-serif;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background-color: #1a1a1a;
+  color: #d4af37;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.botao:hover {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+.mensagem {
+  min-height: 24px;
+  margin-bottom: 12px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #8b0000;
+}
+
+.mensagem.sucesso {
+  color: #1b5e20;
+}
+
+.troca {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.troca a {
+  color: #1a1a1a;
+  font-weight: 600;
+}
+
+/* ===== Responsivo ===== */
 @media (max-width: 768px) {
   .topbar {
     flex-direction: column;

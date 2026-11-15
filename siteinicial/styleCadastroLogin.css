@@ -1,0 +1,207 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #d4af37; /* dourado */
+  color: #1a1a1a;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== Faixa superior ===== */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 40px;
+  background-color: #1a1a1a;
+  color: #d4af37;
+}
+
+.logo {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.menu {
+  display: flex;
+  gap: 28px;
+}
+
+.menu a {
+  color: #d4af37;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.menu a:hover {
+  color: #ffffff;
+}
+
+/* ===== Conteúdo central ===== */
+.conteudo {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+/* Div vazia que envolve as duas divs */
+.container {
+  display: flex;
+  gap: 24px;
+  width: 100%;
+  max-width: 1000px;
+  min-height: 350px;
+}
+
+.box {
+  flex: 1;
+  border-radius: 12px;
+  background-color: rgba(255, 255, 255, 0.35);
+  padding: 20px;
+}
+
+.box-imagem {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  overflow: hidden;
+}
+
+.box-imagem img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 20px;
+}
+
+.box-texto h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.box-texto p {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+.box-texto {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* ===== Logo como link ===== */
+a.logo {
+  color: #d4af37;
+  text-decoration: none;
+}
+
+/* ===== Formulários (login e cadastro) ===== */
+.form-card {
+  width: 100%;
+  max-width: 420px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 48px 40px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-card h1 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.form-card label {
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+
+.form-card input {
+  font-family: 'Poppins', sans-serif;
+  padding: 10px 12px;
+  margin-bottom: 16px;
+  border: 2px solid #d9d9d9;
+  border-radius: 8px;
+  background-color: #ffffff;
+  font-size: 0.95rem;
+}
+
+.form-card input:focus {
+  outline: none;
+  border-color: #1a1a1a;
+}
+
+.botao {
+  font-family: 'Poppins', sans-serif;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background-color: #1a1a1a;
+  color: #d4af37;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.botao:hover {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+.mensagem {
+  min-height: 24px;
+  margin-bottom: 12px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #8b0000;
+}
+
+.mensagem.sucesso {
+  color: #1b5e20;
+}
+
+.troca {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.troca a {
+  color: #1a1a1a;
+  font-weight: 600;
+}
+
+/* ===== Responsivo ===== */
+@media (max-width: 768px) {
+  .topbar {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .menu {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+  }
+
+  .container {
+    flex-direction: column;
+  }
+}

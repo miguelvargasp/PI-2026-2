@@ -27,17 +27,17 @@
     <div class="form-card">
       <h1>Criar conta</h1>
 
-      <label for="ipt_nome">Nome</label>
-      <iptut type="text" id="ipt_nome" placeholder="Informe seu nome"> <br> 
+      <label for="inp_nome">Nome</label>
+      <input type="text" id="inp_nome" placeholder="Informe seu nome"> <br> 
 
-      <label for="ipt_email">Email</label>
-      <iptut type="text" id="ipt_email" placeholder="Insira seu email"> <br>
+      <label for="inp_email">Email</label>
+      <input type="text" id="inp_email" placeholder="Insira seu email"> <br>
 
-      <label for="ipt_senha">Senha</label>
-      <iptut type="password" id="ipt_senha" placeholder="Insira sua senha"> <br>
+      <label for="inp_senha">Senha</label>
+      <input type="password" id="inp_senha" placeholder="Insira sua senha"> <br>
 
-      <label for="ipt_confirmar">Confirmar senha</label>
-      <iptut type="password" id="ipt_confirmar" placeholder="Insira sua senha novamente"> <br>
+      <label for="inp_confirmar">Confirmar senha</label>
+      <input type="password" id="inp_confirmar" placeholder="Insira sua senha novamente"> <br>
 
       <p id="mensagem_erro" class="mensagem"></p>
 
@@ -55,10 +55,10 @@
     }
 
     function cadastrar() {
-      let nome = ipt_nome.value;
-      let email = ipt_email.value;
-      let senha = ipt_senha.value;
-      let confirmarSenha = ipt_confirmar.value;
+      let nome = inp_nome.value;
+      let email = inp_email.value;
+      let senha = inp_senha.value;
+      let confirmarSenha = inp_confirmar.value;
 
       // Validação dos campos
       if (nome == "" || email == "" || senha == "" || confirmarSenha == "") {
