@@ -195,6 +195,24 @@ a.logo {
   font-weight: 600;
 }
 
+/* ===== Conteúdo em coluna (vários blocos empilhados) ===== */
+.conteudo.coluna {
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 24px;
+}
+
+/* Div middle: espaço livre para escrever */
+.middle {
+  width: 100%;
+  max-width: 1000px;
+  min-height: 200px;
+  border-radius: 12px;
+  background-color: rgba(255, 255, 255, 0.35);
+  padding: 20px;
+}
+
 /* ===== Discografia ===== */
 .conteudo-lista {
   flex-direction: column;
