@@ -13,7 +13,7 @@ body {
   flex-direction: column;
 }
 
-/* ===== Faixa superior ===== */
+
 .topbar {
   display: flex;
   justify-content: space-between;
@@ -45,7 +45,7 @@ body {
   color: #ffffff;
 }
 
-/* ===== Conteúdo central ===== */
+
 .conteudo {
   flex: 1;
   display: flex;
@@ -54,7 +54,7 @@ body {
   padding: 40px 20px;
 }
 
-/* Div vazia que envolve as duas divs */
+
 .container {
   display: flex;
   width: 100%;
@@ -104,13 +104,13 @@ body {
   padding: 32px;
 }
 
-/* ===== Logo como link ===== */
+
 a.logo {
   color: #d4af37;
   text-decoration: none;
 }
 
-/* ===== Formulários (login e cadastro) ===== */
+
 .form-card {
   width: 100%;
   max-width: 420px;
@@ -219,7 +219,7 @@ a.logo {
   color: #8c8c8c;
 }
 
-/* ===== Conteúdo em coluna (vários blocos empilhados) ===== */
+
 .conteudo.coluna {
   flex-direction: column;
   justify-content: flex-start;
@@ -227,7 +227,6 @@ a.logo {
   gap: 40px;
 }
 
-/* ===== Discografia ===== */
 .conteudo-lista {
   flex-direction: column;
   justify-content: flex-start;
@@ -294,7 +293,6 @@ a.logo {
   margin-bottom: 8px;
 }
 
-/* ===== Links da discografia ===== */
 .album-capa {
   display: block;
   cursor: pointer;
@@ -315,8 +313,6 @@ a.logo {
 .album-link:hover {
   text-decoration: underline;
 }
-
-/* ===== Página de avaliação ===== */
 .form-card textarea {
   font-family: 'Poppins', sans-serif;
   resize: vertical;
@@ -479,7 +475,6 @@ a.logo {
   width: 100%;
 }
 
-/* ===== Responsivo ===== */
 @media (max-width: 768px) {
   .topbar {
     flex-direction: column;
