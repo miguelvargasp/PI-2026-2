@@ -11,7 +11,7 @@
 
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body onload="listar()">
 
   <header class="topbar">
     <a href="index.html" class="logo">MJRewind</a>
@@ -46,11 +46,7 @@
   </main>
 
   <script>
-    function mostrarMensagem(texto, sucesso) {
-      const msg = document.getElementById("mensagem_erro");
-      msg.innerHTML = texto;
-      msg.className = sucesso ? "mensagem sucesso" : "mensagem";
-    }
+    let listaUsuarios = [];
 
     function cadastrar() {
       let nome = inp_nome.value;
@@ -58,54 +54,86 @@
       let senha = inp_senha.value;
       let confirmarSenha = inp_confirmar.value;
 
+      sumirMensagem();
+      mensagem_erro.className = "mensagem";
+      setTimeout(sumirMensagem, 5000);
+
       if (nome == "" || email == "" || senha == "" || confirmarSenha == "") {
-        mostrarMensagem("Preencha todos os campos!", false);
+        mensagem_erro.innerHTML = "Preencha todos os campos!";
         return false;
       }
       else if (!email.includes("@")) {
-        mostrarMensagem('E-mail inválido! Deve conter "@".', false);
+        mensagem_erro.innerHTML = 'E-mail inválido! Deve conter "@".';
         return false;
       }
       else if (senha.length < 8) {
-        mostrarMensagem("A senha deve ter no mínimo 8 caracteres!", false);
+        mensagem_erro.innerHTML = "A senha deve ter no mínimo 8 caracteres!";
         return false;
       }
       else if (senha != confirmarSenha) {
-        mostrarMensagem("As senhas não coincidem!", false);
+        mensagem_erro.innerHTML = "As senhas não coincidem!";
         return false;
       }
-      else {
-        fetch("/usuarios/cadastrar", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            nomeServer: nome,
-            emailServer: email,
-            senhaServer: senha
-          })
+
+      for (let i = 0; i < listaUsuarios.length; i++) {
+        if (String(listaUsuarios[i].email).toLowerCase() == email.toLowerCase()) {
+          mensagem_erro.innerHTML = "Este e-mail já está cadastrado!";
+          return false;
+        }
+      }
+
+      fetch("/usuarios/cadastrar", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          nomeServer: nome,
+          emailServer: email,
+          senhaServer: senha
         })
-          .then(function (resposta) {
-            console.log("resposta: ", resposta);
+      })
+        .then(function (resposta) {
+          console.log("resposta: ", resposta);
 
-            if (resposta.ok) {
-              mostrarMensagem("Cadastro realizado com sucesso! Redirecionando para o login...", true);
+          if (resposta.ok) {
+            mensagem_erro.className = "mensagem sucesso";
+            mensagem_erro.innerHTML = "Cadastro realizado com sucesso! Redirecionando para o login...";
 
-              setTimeout(() => {
-                window.location = "login.html";
-              }, 2000);
-            } else {
-              throw "Houve um erro ao tentar realizar o cadastro!";
-            }
-          })
-          .catch(function (erro) {
-            console.log(`#ERRO: ${erro}`);
-            mostrarMensagem("Não foi possível realizar o cadastro.", false);
+            setTimeout(() => {
+              window.location = "login.html";
+            }, 2000);
+          } else {
+            throw "Houve um erro ao tentar realizar o cadastro!";
+          }
+        })
+        .catch(function (erro) {
+          console.log(`#ERRO: ${erro}`);
+          mensagem_erro.className = "mensagem";
+          mensagem_erro.innerHTML = "Não foi possível realizar o cadastro.";
+        });
+
+      return false;
+    }
+
+    function listar() {
+      fetch("/usuarios/listar", {
+        method: "GET"
+      })
+        .then(function (resposta) {
+          resposta.json().then((usuarios) => {
+            usuarios.forEach((usuario) => {
+              listaUsuarios.push(usuario);
+            });
           });
+        })
+        .catch(function (erro) {
+          console.log(`#ERRO: ${erro}`);
+        });
+    }
 
-        return false;
-      }
+    function sumirMensagem() {
+      mensagem_erro.innerHTML = "";
     }
   </script>
 
