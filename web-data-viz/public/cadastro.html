@@ -25,8 +25,7 @@
     <div class="form-card">
       <h1>Criar conta</h1>
 
-      <label for="inp_nome">Nome</label>
-      <input type="text" id="inp_nome" placeholder="Informe seu nome">
+      
 
       <label for="inp_email">Email</label>
       <input type="text" id="inp_email" placeholder="Insira seu email">
@@ -49,16 +48,12 @@
     let listaUsuarios = [];
 
     function cadastrar() {
-      let nome = inp_nome.value;
+      
       let email = inp_email.value;
       let senha = inp_senha.value;
       let confirmarSenha = inp_confirmar.value;
 
-      sumirMensagem();
-      mensagem_erro.className = "mensagem";
-      setTimeout(sumirMensagem, 5000);
-
-      if (nome == "" || email == "" || senha == "" || confirmarSenha == "") {
+      if (email == "" || senha == "" || confirmarSenha == "") {
         mensagem_erro.innerHTML = "Preencha todos os campos!";
         return false;
       }
@@ -88,7 +83,6 @@
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          nomeServer: nome,
           emailServer: email,
           senhaServer: senha
         })
@@ -107,13 +101,8 @@
             throw "Houve um erro ao tentar realizar o cadastro!";
           }
         })
-        .catch(function (erro) {
-          console.log(`#ERRO: ${erro}`);
-          mensagem_erro.className = "mensagem";
-          mensagem_erro.innerHTML = "Não foi possível realizar o cadastro.";
-        });
+     
 
-      return false;
     }
 
     function listar() {
@@ -132,9 +121,7 @@
         });
     }
 
-    function sumirMensagem() {
-      mensagem_erro.innerHTML = "";
-    }
+ 
   </script>
 
   <footer class="rodape">
