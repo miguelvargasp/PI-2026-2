@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro - MJRewind</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body onload="listar()">
+
+  <header class="topbar">
+    <a href="index.html" class="logo">MJRewind</a>
+    <nav class="menu">
+      <a href="cadastro.html">Cadastro</a>
+      <a href="login.html">Login</a>
+    </nav>
+  </header>
+
+  <main class="conteudo">
+    <div class="form-card">
+      <h1>Criar conta</h1>
+
+      <label for="inp_nome">Nome</label>
+      <input type="text" id="inp_nome" placeholder="Informe seu nome">
+
+      <label for="inp_email">Email</label>
+      <input type="text" id="inp_email" placeholder="Insira seu email">
+
+      <label for="inp_senha">Senha</label>
+      <input type="password" id="inp_senha" placeholder="Insira sua senha">
+
+      <label for="inp_confirmar">Confirmar senha</label>
+      <input type="password" id="inp_confirmar" placeholder="Insira sua senha novamente">
+
+      <p id="mensagem_erro" class="mensagem"></p>
+
+      <button onclick="cadastrar()" class="botao">Cadastrar</button>
+
+      <p class="troca">Já possui uma conta? <a href="login.html">Entrar</a></p>
+    </div>
+  </main>
+
+  <script>
+    let listaUsuarios = [];
+
+    function cadastrar() {
+      let nome = inp_nome.value;
+      let email = inp_email.value;
+      let senha = inp_senha.value;
+      let confirmarSenha = inp_confirmar.value;
+
+      sumirMensagem();
+      mensagem_erro.className = "mensagem";
+      setTimeout(sumirMensagem, 5000);
+
+      if (nome == "" || email == "" || senha == "" || confirmarSenha == "") {
+        mensagem_erro.innerHTML = "Preencha todos os campos!";
+        return false;
+      }
+      else if (!email.includes("@")) {
+        mensagem_erro.innerHTML = 'E-mail inválido! Deve conter "@".';
+        return false;
+      }
+      else if (senha.length < 8) {
+        mensagem_erro.innerHTML = "A senha deve ter no mínimo 8 caracteres!";
+        return false;
+      }
+      else if (senha != confirmarSenha) {
+        mensagem_erro.innerHTML = "As senhas não coincidem!";
+        return false;
+      }
+
+      for (let i = 0; i < listaUsuarios.length; i++) {
+        if (String(listaUsuarios[i].email).toLowerCase() == email.toLowerCase()) {
+          mensagem_erro.innerHTML = "Este e-mail já está cadastrado!";
+          return false;
+        }
+      }
+
+      fetch("/usuarios/cadastrar", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          nomeServer: nome,
+          emailServer: email,
+          senhaServer: senha
+        })
+      })
+        .then(function (resposta) {
+          console.log("resposta: ", resposta);
+
+          if (resposta.ok) {
+            mensagem_erro.className = "mensagem sucesso";
+            mensagem_erro.innerHTML = "Cadastro realizado com sucesso! Redirecionando para o login...";
+
+            setTimeout(() => {
+              window.location = "login.html";
+            }, 2000);
+          } else {
+            throw "Houve um erro ao tentar realizar o cadastro!";
+          }
+        })
+        .catch(function (erro) {
+          console.log(`#ERRO: ${erro}`);
+          mensagem_erro.className = "mensagem";
+          mensagem_erro.innerHTML = "Não foi possível realizar o cadastro.";
+        });
+
+      return false;
+    }
+
+    function listar() {
+      fetch("/usuarios/listar", {
+        method: "GET"
+      })
+        .then(function (resposta) {
+          resposta.json().then((usuarios) => {
+            usuarios.forEach((usuario) => {
+              listaUsuarios.push(usuario);
+            });
+          });
+        })
+        .catch(function (erro) {
+          console.log(`#ERRO: ${erro}`);
+        });
+    }
+
+    function sumirMensagem() {
+      mensagem_erro.innerHTML = "";
+    }
+  </script>
+
+  <footer class="rodape">
+    <div class="rodape-logo">MJRewind</div>
+    <p class="direitos">© The Michael Jackson Company, LLC. Todos os direitos reservados.</p>
+  </footer>
+
+</body>
+</html>
