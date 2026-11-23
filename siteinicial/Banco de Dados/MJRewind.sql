@@ -31,3 +31,26 @@ CREATE TABLE avaliacao (
   CONSTRAINT fk_avaliacao_album
     FOREIGN KEY (fk_album) REFERENCES album (id_album)
 );
+
+
+SELECT a.titulo,
+       ROUND(AVG(av.nota), 1) AS nota_media
+FROM avaliacao av
+JOIN album a ON a.id_album = av.fk_album
+GROUP BY a.id_album, a.titulo
+ORDER BY AVG(av.nota) DESC, COUNT(*) DESC
+LIMIT 1;
+
+
+SELECT COUNT(*) AS total_avaliacoes
+FROM avaliacao;
+
+
+SELECT musica_favorita,
+       COUNT(*) AS quantidade
+FROM avaliacao
+WHERE musica_favorita IS NOT NULL
+  AND musica_favorita <> ''
+GROUP BY musica_favorita
+ORDER BY quantidade DESC, musica_favorita
+LIMIT 1;
