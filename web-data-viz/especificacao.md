@@ -39,7 +39,7 @@ Não inclui (neste plano):
   - nota (0 a 10);
   - comentário breve;
   - música favorita.
-- Possibilidade de múltiplas avaliações por usuário (registro pessoal).
+- Possibilidade de múltiplas avaliações por usuário (registro pessoal e tabela N:N no banco de dados).
 - Dashboard interativo com:
   - KPIs (álbum mais avaliado, total de avaliações, nota final/média);
   - gráfico de barras de quantidade de avaliações por álbum;

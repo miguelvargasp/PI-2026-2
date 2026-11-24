@@ -5,6 +5,8 @@ CREATE TABLE usuario (
   id_usuario INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   email VARCHAR(45) NOT NULL,
   senha VARCHAR(45) NOT NULL,
+  CONSTRAINT uq_usuario_email
+    UNIQUE (email),
   CONSTRAINT chk_usuario_email
     CHECK (email LIKE '%@%')
 );
@@ -23,7 +25,7 @@ CREATE TABLE avaliacao (
   nota DECIMAL(3,1) NOT NULL,
   comentario VARCHAR(100) NULL,
   musica_favorita VARCHAR(45) NULL,
-  PRIMARY KEY (id_avaliacao, fk_usuario, fk_album),
+  PRIMARY KEY (id_avaliacao),
   CONSTRAINT chk_avaliacao_nota
     CHECK (nota BETWEEN 0 AND 10.0),
   CONSTRAINT fk_avaliacao_usuario
@@ -31,6 +33,15 @@ CREATE TABLE avaliacao (
   CONSTRAINT fk_avaliacao_album
     FOREIGN KEY (fk_album) REFERENCES album (id_album)
 );
+
+INSERT INTO album (titulo, faixas, ano_lancamento) VALUES
+('Off the Wall', 10, '1979'),
+('Thriller', 9, '1982'),
+('Bad', 11, '1987'),
+('Dangerous', 14, '1991'),
+('HIStory', 15, '1995'),
+('Blood on the Dance Floor', 13, '1997'),
+('Invincible', 16, '2001');
 
 
 SELECT a.titulo,

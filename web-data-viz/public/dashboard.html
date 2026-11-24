@@ -43,9 +43,9 @@
       </article>
 
       <article class="kpi-card">
-        <span class="kpi-rotulo">Música favorita mais citada</span>
-        <h2 id="kpiMusica">-</h2>
-        <p id="kpiMusicaQtd">-</p>
+        <span class="kpi-rotulo">Nota média geral</span>
+        <h2 id="kpiMediaGeral">-</h2>
+        <p id="kpiMediaLegenda">Média de todas as avaliações</p>
       </article>
     </section>
 
@@ -72,147 +72,128 @@
   </footer>
 
   <script>
-    const albuns = [
-      'Off the Wall', 'Thriller', 'Bad', 'Dangerous',
-      'HIStory', 'Blood on the Dance Floor', 'Invincible'
-    ];
+    if (!sessionStorage.getItem("ID_USUARIO")) {
+      window.location.href = "login.html";
+    }
 
-    const avaliacoes = [
-      { id: 1,  album: 'Thriller',   nota: 10,  musica: 'BILLIE JEAN',            comentario: 'Um clássico absoluto, não envelhece.' },
-      { id: 2,  album: 'Off the Wall', nota: 9.5, musica: "DON'T STOP 'TIL YOU GET ENOUGH", comentario: 'Groove perfeito do início ao fim.' },
-      { id: 3,  album: 'Bad',        nota: 9,   musica: 'MAN IN THE MIRROR',      comentario: 'Mensagem forte e vocal emocionante.' },
-      { id: 4,  album: 'Thriller',   nota: 9.8, musica: 'BEAT IT',                comentario: 'Guitarra e energia de sobra.' },
-      { id: 5,  album: 'Dangerous',  nota: 8.5, musica: 'BLACK OR WHITE',         comentario: 'Mistura ousada de pop e rock.' },
-      { id: 6,  album: 'HIStory',    nota: 8,   musica: 'EARTH SONG',             comentario: 'Intenso e cheio de significado.' },
-      { id: 7,  album: 'Invincible', nota: 7.5, musica: 'YOU ROCK MY WORLD',      comentario: 'Sonoridade moderna para a época.' },
-      { id: 8,  album: 'Bad',        nota: 9.2, musica: 'SMOOTH CRIMINAL',        comentario: 'Linha de baixo inesquecível.' },
-      { id: 9,  album: 'Thriller',   nota: 10,  musica: 'BILLIE JEAN',            comentario: 'Meu álbum favorito de todos.' },
-      { id: 10, album: 'Dangerous',  nota: 8.8, musica: 'REMEMBER THE TIME',      comentario: 'Produção impecável do Teddy Riley.' },
-      { id: 11, album: 'Blood on the Dance Floor', nota: 7, musica: 'GHOSTS',     comentario: 'Clima sombrio e diferente.' },
-      { id: 12, album: 'Off the Wall', nota: 9.4, musica: 'ROCK WITH YOU',        comentario: 'Disco no seu melhor.' }
-    ];
+    function formatarNota(valor) {
+      if (valor == null || valor == undefined || Number.isNaN(Number(valor))) return "-";
+      return Number(valor).toLocaleString("pt-BR", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+    }
 
-    const total = avaliacoes.length;
+    function preencherKpis(dados) {
+      const album = dados.albumMaisAvaliado || {};
+      document.getElementById("kpiMelhorAlbum").textContent = album.album || "-";
+      document.getElementById("kpiMelhorNota").textContent =
+        album.quantidadeAvaliacoes > 0
+          ? `${album.quantidadeAvaliacoes} avaliação(ões) | Nota média ${formatarNota(album.notaMediaAlbum)}`
+          : "Sem avaliações";
 
-    const somaPorAlbum = {};
-    const qtdPorAlbum = {};
-    albuns.forEach(a => { somaPorAlbum[a] = 0; qtdPorAlbum[a] = 0; });
-    avaliacoes.forEach(av => {
-      somaPorAlbum[av.album] += av.nota;
-      qtdPorAlbum[av.album] += 1;
-    });
+      document.getElementById("kpiTotal").textContent = Number(dados.totalAvaliacoes || 0).toLocaleString("pt-BR");
+      document.getElementById("kpiMediaGeral").textContent = formatarNota(dados.notaMediaGeral);
+    }
 
-    let melhorAlbum = null;
-    let melhorMedia = -1;
-    albuns.forEach(a => {
-      if (qtdPorAlbum[a] > 0) {
-        const media = somaPorAlbum[a] / qtdPorAlbum[a];
-        if (media > melhorMedia) {
-          melhorMedia = media;
-          melhorAlbum = a;
-        }
+    function preencherUltimas(ultimas) {
+      const lista = document.getElementById("listaUltimas");
+      lista.innerHTML = "";
+
+      if (!ultimas || ultimas.length === 0) {
+        lista.innerHTML = "<p>Sem avaliações ainda.</p>";
+        return;
       }
-    });
 
-    const contagemMusicas = {};
-    avaliacoes.forEach(av => {
-      contagemMusicas[av.musica] = (contagemMusicas[av.musica] || 0) + 1;
-    });
-    let musicaTop = null;
-    let musicaTopQtd = 0;
-    Object.keys(contagemMusicas).forEach(m => {
-      if (contagemMusicas[m] > musicaTopQtd) {
-        musicaTop = m;
-        musicaTopQtd = contagemMusicas[m];
-      }
-    });
+      ultimas.forEach(av => {
+        const card = document.createElement("article");
+        card.className = "ultima-card";
 
-    const formatarNota = n => n.toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+        const topo = document.createElement("div");
+        topo.className = "ultima-topo";
+        const titulo = document.createElement("h3");
+        titulo.textContent = av.album;
+        const nota = document.createElement("span");
+        nota.className = "ultima-nota";
+        nota.textContent = formatarNota(av.nota);
+        topo.appendChild(titulo);
+        topo.appendChild(nota);
 
-    document.getElementById('kpiMelhorAlbum').textContent = melhorAlbum || '-';
-    document.getElementById('kpiMelhorNota').textContent =
-      melhorAlbum ? `Nota média ${formatarNota(melhorMedia)} de 10` : 'Sem avaliações';
-    document.getElementById('kpiTotal').textContent = total.toLocaleString('pt-BR');
-    document.getElementById('kpiMusica').textContent = musicaTop || '-';
-    document.getElementById('kpiMusicaQtd').textContent =
-      musicaTop ? `Citada em ${musicaTopQtd} ${musicaTopQtd === 1 ? 'avaliação' : 'avaliações'}` : 'Sem avaliações';
+        const musica = document.createElement("p");
+        musica.className = "ultima-musica";
+        const rotulo = document.createElement("strong");
+        rotulo.textContent = "Música favorita: ";
+        musica.appendChild(rotulo);
+        musica.appendChild(document.createTextNode(av.musicaFavorita));
 
-    const ultimas = avaliacoes.slice().sort((a, b) => b.id - a.id).slice(0, 3);
-    const lista = document.getElementById('listaUltimas');
-    ultimas.forEach(av => {
-      const card = document.createElement('article');
-      card.className = 'ultima-card';
+        const comentario = document.createElement("p");
+        comentario.className = "ultima-comentario";
+        comentario.textContent = `"${av.comentario}"`;
 
-      const topo = document.createElement('div');
-      topo.className = 'ultima-topo';
-      const titulo = document.createElement('h3');
-      titulo.textContent = av.album;
-      const nota = document.createElement('span');
-      nota.className = 'ultima-nota';
-      nota.textContent = formatarNota(av.nota);
-      topo.appendChild(titulo);
-      topo.appendChild(nota);
+        card.appendChild(topo);
+        card.appendChild(musica);
+        card.appendChild(comentario);
+        lista.appendChild(card);
+      });
+    }
 
-      const musica = document.createElement('p');
-      musica.className = 'ultima-musica';
-      const rotulo = document.createElement('strong');
-      rotulo.textContent = 'Música favorita: ';
-      musica.appendChild(rotulo);
-      musica.appendChild(document.createTextNode(av.musica));
+    function desenharGrafico(dadosPorAlbum) {
+      const labels = dadosPorAlbum.map(item => item.album);
+      const quantidades = dadosPorAlbum.map(item => Number(item.quantidade));
 
-      const comentario = document.createElement('p');
-      comentario.className = 'ultima-comentario';
-      comentario.textContent = `"${av.comentario}"`;
+      Chart.defaults.font.family = "'Poppins', sans-serif";
+      Chart.defaults.color = "#1a1a1a";
 
-      card.appendChild(topo);
-      card.appendChild(musica);
-      card.appendChild(comentario);
-      lista.appendChild(card);
-    });
-
-    Chart.defaults.font.family = "'Poppins', sans-serif";
-    Chart.defaults.color = '#1a1a1a';
-
-    new Chart(document.getElementById('graficoBarras'), {
-      type: 'bar',
-      data: {
-        labels: albuns,
-        datasets: [{
-          label: 'Avaliações',
-          data: albuns.map(a => qtdPorAlbum[a]),
-          backgroundColor: '#1a1a1a',
-          hoverBackgroundColor: '#d4af37',
-          borderRadius: 6,
-          barThickness: 22
-        }]
-      },
-      options: {
-        indexAxis: 'y',
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: { display: false },
-          tooltip: {
-            backgroundColor: '#1a1a1a',
-            padding: 12,
-            displayColors: false,
-            callbacks: {
-              label: ctx => `${ctx.parsed.x} ${ctx.parsed.x === 1 ? 'avaliação' : 'avaliações'}`
+      new Chart(document.getElementById("graficoBarras"), {
+        type: "bar",
+        data: {
+          labels: labels,
+          datasets: [{
+            label: "Avaliações",
+            data: quantidades,
+            backgroundColor: "#1a1a1a",
+            hoverBackgroundColor: "#d4af37",
+            borderRadius: 6,
+            barThickness: 22
+          }]
+        },
+        options: {
+          indexAxis: "y",
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: "#1a1a1a",
+              padding: 12,
+              displayColors: false,
+              callbacks: {
+                label: ctx => `${ctx.parsed.x} ${ctx.parsed.x === 1 ? "avaliação" : "avaliações"}`
+              }
+            }
+          },
+          scales: {
+            x: {
+              beginAtZero: true,
+              title: { display: true, text: "Quantidade de avaliações" },
+              ticks: { precision: 0, stepSize: 1 },
+              grid: { color: "rgba(26, 26, 26, 0.08)" }
+            },
+            y: {
+              grid: { display: false }
             }
           }
-        },
-        scales: {
-          x: {
-            beginAtZero: true,
-            title: { display: true, text: 'Quantidade de avaliações' },
-            ticks: { precision: 0, stepSize: 1 },
-            grid: { color: 'rgba(26, 26, 26, 0.08)' }
-          },
-          y: {
-            grid: { display: false }
-          }
         }
-      }
+      });
+    }
+
+    Promise.all([
+      fetch("/avaliacoes/dashboard/kpis").then(r => r.json()),
+      fetch("/avaliacoes/dashboard/por-album").then(r => r.json()),
+      fetch("/avaliacoes/dashboard/ultimas?limite=3").then(r => r.json())
+    ]).then(([kpis, porAlbum, ultimas]) => {
+      preencherKpis(kpis);
+      desenharGrafico(porAlbum);
+      preencherUltimas(ultimas);
+    }).catch((erro) => {
+      console.log("Erro ao carregar dashboard:", erro);
     });
   </script>
 

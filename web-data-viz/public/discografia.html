@@ -129,9 +129,9 @@
   </main>
 
   <script>
-    if (sessionStorage.getItem("ID_USUARIO")) {
-      document.getElementById("menu_cadastro").style.display = "none";
-      document.getElementById("menu_login").style.display = "none";
+    if (!sessionStorage.getItem("ID_USUARIO")) {
+      window.location.href = "login.html";
+    } else {
       document.getElementById("link_logo").href = "indexLog.html";
     }
   </script>

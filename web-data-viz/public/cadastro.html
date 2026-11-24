@@ -98,10 +98,15 @@
               window.location = "login.html";
             }, 2000);
           } else {
-            throw "Houve um erro ao tentar realizar o cadastro!";
+            resposta.text().then((textoErro) => {
+              mensagem_erro.innerHTML = textoErro || "Houve um erro ao tentar realizar o cadastro!";
+            });
           }
         })
-     
+        .catch(function (erro) {
+          console.log(`#ERRO: ${erro}`);
+          mensagem_erro.innerHTML = "Não foi possível conectar ao servidor.";
+        });
 
     }
 
