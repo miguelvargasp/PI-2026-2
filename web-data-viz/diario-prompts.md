@@ -65,3 +65,18 @@ Emitted 'error' event on Server instance at:
 Node.js v24.21.0  aparece este erro`
 
 12. `Elabore um diario-prompts.md em que é registrado todos os prompts que utilizei até agora`
+
+13. `Crie um README.md conforme a documentação em \siteinicial\Documentação\A importância de Michael Jackson para a indústria da música.pdf' em que esteja uma contextualização, explique as funcionalidade, e outros tópicos úteis em um README.md.
+
+Adicione este prompt e resultado em /web-data-viz/diario-prompts.md`
+
+Resultado:
+- README criado/atualizado em `/siteinicial/README.md` com:
+  - contextualização do projeto;
+  - objetivo;
+  - funcionalidades principais;
+  - escopo;
+  - requisitos/premissas;
+  - regras de negócio;
+  - relação com ODS;
+  - resumo da modelagem lógica e estrutura de documentação.
