@@ -600,3 +600,68 @@ a.logo {
     height: 340px;
   }
 }
+
+/* ===== Quiz ===== */
+.quiz-conteudo {
+  align-items: flex-start;
+  padding-top: 48px;
+}
+
+.quiz-card {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.quiz-card h1 {
+  margin-bottom: 8px;
+}
+
+.quiz-subtitulo {
+  margin-bottom: 20px;
+}
+
+.quiz-resumo {
+  margin-bottom: 24px;
+}
+
+.quiz-pergunta h2 {
+  margin-bottom: 16px;
+  font-size: 1.15rem;
+}
+
+.quiz-opcoes {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.quiz-opcao {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  background-color: #f2f2f2;
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+
+.quiz-botoes {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 24px;
+}
+
+.quiz-botoes .botao {
+  min-width: 170px;
+}
+
+.quiz-mensagem {
+  margin-top: 18px;
+  min-height: 26px;
+  font-weight: 600;
+}

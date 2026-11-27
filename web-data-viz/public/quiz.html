@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz - MJRewind</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header class="topbar">
+    <a href="index.html" class="logo" id="link_logo">MJRewind</a>
+    <nav class="menu">
+      <a href="cadastro.html" id="menu_cadastro">Cadastro</a>
+      <a href="login.html" id="menu_login">Login</a>
+      <a href="discografia.html">Discografia</a>
+      <a href="dashboard.html">Estatísticas</a>
+      <a href="quiz.html">Quiz</a>
+    </nav>
+  </header>
+
+  <main class="conteudo quiz-conteudo">
+    <section class="quiz-card">
+      <h1>Quiz Michael Jackson</h1>
+      <p class="quiz-subtitulo">Teste seus conhecimentos sobre a carreira do Rei do Pop.</p>
+
+      <div id="resumoQuiz" class="quiz-resumo">Acertos: <strong id="acertos">0</strong> | Erros: <strong id="erros">0</strong></div>
+
+      <div id="blocoPergunta" class="quiz-pergunta">
+        <h2 id="tituloPergunta">Clique em “Iniciar Quiz” para começar.</h2>
+        <div id="opcoes" class="quiz-opcoes"></div>
+      </div>
+
+      <p id="mensagemQuiz" class="quiz-mensagem"></p>
+
+      <div class="quiz-botoes">
+        <button id="btnIniciar" class="botao" onclick="iniciarQuiz()">Iniciar Quiz</button>
+        <button id="btnResponder" class="botao" onclick="responder()" disabled>Responder</button>
+        <button id="btnProxima" class="botao" onclick="proximaPergunta()" disabled>Próxima</button>
+        <button id="btnReiniciar" class="botao" onclick="reiniciarQuiz()" disabled>Tentar novamente</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <div class="rodape-logo">MJRewind</div>
+    <p class="direitos">© The Michael Jackson Company, LLC. Todos os direitos reservados.</p>
+  </footer>
+
+  <script>
+    const questoes = [
+      {
+        pergunta: "Em que ano Michael Jackson nasceu?",
+        opcoes: ["1958", "1959", "1960"],
+        correta: "1958"
+      },
+      {
+        pergunta: "Qual foi o primeiro álbum de Michael Jackson como artista solo com controle criativo?",
+        opcoes: ["Off the Wall", "Thriller", "Bad"],
+        correta: "Off the Wall"
+      },
+      {
+        pergunta: "Qual música teve o primeiro clipe de um artista negro em alta rotação na MTV?",
+        opcoes: ["Wanna Be Startin' Somethin'", "Thriller", "Billie Jean"],
+        correta: "Billie Jean"
+      },
+      {
+        pergunta: "Qual destas músicas não está em álbuns de estúdio de Michael Jackson?",
+        opcoes: ["The Way You Make Me Feel", "Beat It", "We Are The World"],
+        correta: "We Are The World"
+      },
+      {
+        pergunta: "Em qual álbum Michael Jackson expressa sua indignação com difamações da mídia?",
+        opcoes: ["Dangerous", "Bad", "HIStory"],
+        correta: "HIStory"
+      },
+      {
+        pergunta: "Qual foi o primeiro álbum de Michael Jackson sem parceria com Quincy Jones?",
+        opcoes: ["Bad", "Dangerous", "HIStory"],
+        correta: "Dangerous"
+      },
+      {
+        pergunta: "Qual destas músicas não está no álbum Bad?",
+        opcoes: ["Bad", "Smooth Criminal", "Remember The Time"],
+        correta: "Remember The Time"
+      },
+      {
+        pergunta: "Qual foi o último álbum de Michael Jackson lançado em vida?",
+        opcoes: ["Blood on the Dance Floor", "Dangerous", "Invincible"],
+        correta: "Invincible"
+      },
+      {
+        pergunta: "Qual destes álbuns é o mais vendido de todos os tempos?",
+        opcoes: ["Bad", "Thriller", "Dangerous"],
+        correta: "Thriller"
+      },
+      {
+        pergunta: "Em qual destes álbuns a música “Remember The Time” está presente?",
+        opcoes: ["Dangerous", "HIStory", "Bad"],
+        correta: "Dangerous"
+      }
+    ];
+
+    let indiceAtual = -1;
+    let acertos = 0;
+    let erros = 0;
+
+    function iniciarQuiz() {
+      indiceAtual = 0;
+      acertos = 0;
+      erros = 0;
+      atualizarResumo();
+      document.getElementById("mensagemQuiz").textContent = "";
+      document.getElementById("btnIniciar").disabled = true;
+      document.getElementById("btnResponder").disabled = false;
+      document.getElementById("btnProxima").disabled = true;
+      document.getElementById("btnReiniciar").disabled = true;
+      renderizarQuestao();
+    }
+
+    function renderizarQuestao() {
+      const questao = questoes[indiceAtual];
+      document.getElementById("tituloPergunta").textContent = `${indiceAtual + 1}. ${questao.pergunta}`;
+
+      const opcoesDiv = document.getElementById("opcoes");
+      opcoesDiv.innerHTML = "";
+
+      questao.opcoes.forEach((opcao, idx) => {
+        const id = `opcao_${idx}`;
+        const item = document.createElement("label");
+        item.className = "quiz-opcao";
+        item.innerHTML = `
+          <input type="radio" name="quiz_opcao" id="${id}" value="${opcao}">
+          <span>${opcao}</span>
+        `;
+        opcoesDiv.appendChild(item);
+      });
+    }
+
+    function responder() {
+      const marcada = document.querySelector('input[name="quiz_opcao"]:checked');
+      const mensagem = document.getElementById("mensagemQuiz");
+
+      if (!marcada) {
+        mensagem.textContent = "Selecione uma opção antes de responder.";
+        return;
+      }
+
+      const correta = questoes[indiceAtual].correta;
+
+      if (marcada.value === correta) {
+        acertos++;
+        mensagem.textContent = "Resposta correta!";
+      } else {
+        erros++;
+        mensagem.textContent = `Resposta incorreta. Correta: ${correta}.`;
+      }
+
+      atualizarResumo();
+      document.getElementById("btnResponder").disabled = true;
+      document.getElementById("btnProxima").disabled = false;
+
+      document.querySelectorAll('input[name="quiz_opcao"]').forEach(inp => inp.disabled = true);
+    }
+
+    function proximaPergunta() {
+      indiceAtual++;
+      const mensagem = document.getElementById("mensagemQuiz");
+
+      if (indiceAtual >= questoes.length) {
+        finalizarQuiz();
+        return;
+      }
+
+      mensagem.textContent = "";
+      renderizarQuestao();
+      document.getElementById("btnResponder").disabled = false;
+      document.getElementById("btnProxima").disabled = true;
+    }
+
+    function finalizarQuiz() {
+      let recomendacao = "";
+
+      if (acertos >= 8) {
+        recomendacao = "Ouça Blood on the Dance Floor ou Invincible.";
+      } else if (acertos >= 4) {
+        recomendacao = "Ouça Dangerous e HIStory.";
+      } else {
+        recomendacao = "Ouça pelo menos Thriller.";
+      }
+
+      document.getElementById("tituloPergunta").textContent = "Quiz finalizado!";
+      document.getElementById("opcoes").innerHTML = "";
+      document.getElementById("mensagemQuiz").textContent = `Você acertou ${acertos} de ${questoes.length}. ${recomendacao}`;
+
+      document.getElementById("btnResponder").disabled = true;
+      document.getElementById("btnProxima").disabled = true;
+      document.getElementById("btnReiniciar").disabled = false;
+    }
+
+    function reiniciarQuiz() {
+      indiceAtual = -1;
+      acertos = 0;
+      erros = 0;
+      atualizarResumo();
+
+      document.getElementById("tituloPergunta").textContent = "Clique em “Iniciar Quiz” para começar.";
+      document.getElementById("opcoes").innerHTML = "";
+      document.getElementById("mensagemQuiz").textContent = "";
+
+      document.getElementById("btnIniciar").disabled = false;
+      document.getElementById("btnResponder").disabled = true;
+      document.getElementById("btnProxima").disabled = true;
+      document.getElementById("btnReiniciar").disabled = true;
+    }
+
+    function atualizarResumo() {
+      document.getElementById("acertos").textContent = acertos;
+      document.getElementById("erros").textContent = erros;
+    }
+
+    const idUsuario = sessionStorage.getItem("ID_USUARIO");
+    if (idUsuario) {
+      const menuCadastro = document.getElementById("menu_cadastro");
+      const menuLogin = document.getElementById("menu_login");
+      const linkLogo = document.getElementById("link_logo");
+      if (menuCadastro) menuCadastro.style.display = "none";
+      if (menuLogin) menuLogin.style.display = "none";
+      if (linkLogo) linkLogo.href = "indexLog.html";
+    }
+  </script>
+
+</body>
+</html>
